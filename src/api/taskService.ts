@@ -23,7 +23,7 @@ export async function updateTaskRequest(id: string, data: TaskRequest) {
     return response.data;
 }
 
-export async function deleteTask(id: string) {
+export async function deleteTaskRequest(id: string) {
     await axios.delete(`${BASE_URL}/${id}`, { headers: getAuthHeaders() });
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Task, TaskRequest } from "../types/task";
-import { createTaskRequest, getTasks, toggleTaskCompleteRequest, updateTaskRequest } from "../api/taskService";
+import { createTaskRequest, getTasks, toggleTaskCompleteRequest, updateTaskRequest, deleteTaskRequest } from "../api/taskService";
 import type { SubtaskRequest } from "../types/subtask";
 import { createSubtaskRequest, toggleSubtaskCompleteRequest, updateSubtaskRequest, deleteSubtaskRequest } from "../api/subtaskService";
 
@@ -64,7 +64,7 @@ export function useTasks() {
     async function deleteTask(id: string) {
         try {
             setError(null);
-            await deleteTask(id);
+            await deleteTaskRequest(id);
             setTasks(prev => prev.filter(task => task.id !== id));
         } catch (error) {
             console.error("Failed to delete task:", error);

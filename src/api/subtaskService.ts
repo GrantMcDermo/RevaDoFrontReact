@@ -1,21 +1,28 @@
+import axios from "axios";
 import type { Subtask, SubtaskRequest } from "../types/subtask";
-import client from "./client";
 
-export async function createSubtask(taskId: string, data: SubtaskRequest): Promise<Subtask> {
-    const response = await client.post<Subtask>(`/subtasks/task/${taskId}`, data);
+const BASE_URL = "http://localhost:8080/subtasks";
+
+function getAuthHeaders() {
+    const token = localStorage.getItem("revado_token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export async function createSubtaskRequest(taskId: string, data: SubtaskRequest) {
+    const response = await axios.post<Subtask>(`${BASE_URL}/task/${taskId}`, data, { headers: getAuthHeaders() });
     return response.data;
 }
 
-export async function updateSubtask(id: string, data: SubtaskRequest): Promise<Subtask> {
-    const response = await client.put<Subtask>(`/subtasks/${id}`, data);
+export async function updateSubtaskRequest(id: string, data: SubtaskRequest) {
+    const response = await axios.put<Subtask>(`${BASE_URL}/${id}`, data, { headers: getAuthHeaders() });
     return response.data;
 }
 
-export async function deleteSubtask(id: string): Promise<void> {
-    await client.delete(`/subtasks/${id}`);
+export async function deleteSubtaskRequest(id: string) {
+    await axios.delete(`${BASE_URL}/${id}`, { headers: getAuthHeaders() });
 }
 
-export async function toggleSubtaskComplete(id: string): Promise<Subtask> {
-    const response = await client.patch<Subtask>(`/subtasks/${id}/complete`);
+export async function toggleSubtaskCompleteRequest(id: string) {
+    const response = await axios.patch<Subtask>(`${BASE_URL}/${id}/complete`, null, { headers: getAuthHeaders() });
     return response.data;
 }

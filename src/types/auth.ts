@@ -1,21 +1,32 @@
-export interface AuthRequest {
+export type User = {
+    id: string;
+    username: string;
+};
+
+export type AuthRequest = {
     username: string;
     password: string;
-}
+};
 
-export interface AuthResponse {
+export type RegisterRequest = {
+    username: string;
+    password: string;
+};
+
+export type AuthResponse = {
     token: string;
-}
+};
 
-export interface RegisterResponse {
+export type RegisterResponse = {
     id?: number;
     username: string;  
-}
+};
 
-export interface AuthContextType {
-    token: string;
+export type AuthContextType = {
+    token: string | null;
+    username: string | null;
     isAuthenticated: boolean;
-    authLoading: boolean;
-    login: (username: string, password: string) => Promise<void>;
+    isAuthLoading: boolean;
+    login: (username: string, password: string) => void;
     logout: () => void;
-}
+};

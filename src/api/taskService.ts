@@ -1,26 +1,33 @@
+import axios from "axios";
 import type { Task, TaskRequest } from "../types/task";
-import client from "./client";
 
-export async function getTasks(): Promise<Task[]> {
-    const response = await client.get<Task[]>("/todo");
+const BASE_URL = "http://localhost:8080/todo";
+
+function getAuthHeaders() {
+    const token = localStorage.getItem("revado_token");
+    return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+export async function getTasks() {
+    const response = await axios.get<Task[]>(`${BASE_URL}`, { headers: getAuthHeaders() });
     return response.data;
 }
 
-export async function createTask(data: TaskRequest): Promise<Task> {
-    const response = await client.post<Task>("/todo", data);
+export async function createTaskRequest(data: TaskRequest) {
+    const response = await axios.post<Task>(`${BASE_URL}`, data, { headers: getAuthHeaders() });
     return response.data;
 }
 
-export async function updateTask(id: string, data: TaskRequest): Promise<Task> {
-    const response = await client.put<Task>(`/todo/${id}`, data);
+export async function updateTaskRequest(id: string, data: TaskRequest) {
+    const response = await axios.put<Task>(`${BASE_URL}/${id}`, data, { headers: getAuthHeaders() });
     return response.data;
 }
 
-export async function deleteTask(id: string): Promise<void> {
-    await client.delete(`/todo/${id}`);
+export async function deleteTask(id: string) {
+    await axios.delete(`${BASE_URL}/${id}`, { headers: getAuthHeaders() });
 }
 
-export async function toggleTaskComplete(id: string): Promise<Task> {
-    const response = await client.patch<Task>(`/todo/${id}/complete`);
+export async function toggleTaskCompleteRequest(id: string) {
+    const response = await axios.patch<Task>(`${BASE_URL}/${id}/complete`, null, { headers: getAuthHeaders() });
     return response.data;
 }

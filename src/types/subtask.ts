@@ -1,11 +1,11 @@
-export interface Subtask {
+export type Subtask = {
     id: string;
     title: string;
-    description: string;
+    description: string | null;
     completed: boolean;
-}
+};
 
-export interface SubtaskRequest {
+export type SubtaskRequest = {
   title: string;
   description: string;
-}
+};

@@ -2,14 +2,14 @@ import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
-interface ProtectedRouteProps {
+type ProtectedRouteProps = {
     children: ReactNode;
-}
+};
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-    const { isAuthenticated, authLoading } = useAuth();
+    const { isAuthenticated, isAuthLoading } = useAuth();
 
-    if (authLoading) {
+    if (isAuthLoading) {
         return <p>Checking authentication...</p>;
     }
 

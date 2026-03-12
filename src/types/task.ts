@@ -1,14 +1,14 @@
 import type { Subtask } from "./subtask";
 
-export interface Task {
+export type Task = {
     id: string;
     title: string;
-    description: string;
+    description: string | null;
     completed: boolean;
-    subtasks?: Subtask[];
-}
+    subtasks: Subtask[];
+};
 
-export interface TaskRequest {
+export type TaskRequest = {
     title: string;
     description: string;
-}
+};

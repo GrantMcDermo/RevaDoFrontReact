@@ -1,29 +1,30 @@
-import { useState, type ChangeEvent, type SubmitEvent } from "react";
-import type { AuthRequest } from "../types/auth";
+import { useState, type SubmitEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../api/authService";
 
 export default function RegisterPage() {
-    const [form, setForm] = useState<AuthRequest>({ username: "", password: "" });
-    const [error, setError] = useState<string>("");
-    const [success, setSuccess] = useState<string>("");
+    const [success, setSuccess] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    function handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-    }
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    async function handleSubmit(e: SubmitEvent): Promise<void> {
+    async function handleSubmit(e: SubmitEvent) {
         e.preventDefault();
-        setError("");
-        setSuccess("");
         try {
-            const data = await registerUser(form);
-            setSuccess(`User ${data.username} registered successfully!`);
-            setTimeout(() => navigate("/login"), 1000);
-        } catch {
+            setLoading(true);
+            setError(null);
+            setSuccess(null);
+            await registerUser({ username, password });
+            setSuccess("Registration successful. Please log in.");
+            navigate("/login", { replace: true });
+        } catch (err) {
+            console.error("Registration failed", err);
             setError("Registration failed. Please try again.");
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -31,29 +32,11 @@ export default function RegisterPage() {
         <div>
             <h2>Register</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        name="username"
-                        value={form.username}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={form.password}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Register</button>
+                <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+                <button type="submit" disabled={loading}>
+                    {loading ? "Registering..." : "Register"}
+                </button>
             </form>
             {error && <p style={{ color: "red" }}>{error}</p>}
             {success && <p style={{ color: "green" }}>{success}</p>}

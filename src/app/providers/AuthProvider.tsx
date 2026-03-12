@@ -19,7 +19,9 @@ export function AuthProvider({ children }: Props) {
             const storedToken = localStorage.getItem(TOKEN_KEY);
             const storedUsername = localStorage.getItem(USERNAME_KEY);
 
-            if(!storedToken){
+            if(!storedToken || !storedToken.trim()){
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USERNAME_KEY);
                 setIsAuthLoading(false);
                 return;
             }

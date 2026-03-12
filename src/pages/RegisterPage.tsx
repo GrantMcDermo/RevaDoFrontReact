@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../api/authService";
 
@@ -14,7 +14,7 @@ export default function RegisterPage() {
         setForm((prev) => ({ ...prev, [name]: value }));
     }
 
-    async function handleSubmit(e: SubmitEvent) {
+    const handleSubmit: React.ComponentProps<"form">["onSubmit"] = async (e) => {
         e.preventDefault();
         setError("");
         try {
@@ -27,7 +27,7 @@ export default function RegisterPage() {
         } finally {
             setLoading(false);
         }
-    }
+    };
 
     return (
         <main className="auth-page">
@@ -37,11 +37,11 @@ export default function RegisterPage() {
                 <form className="app-form" onSubmit={handleSubmit}>
                     <div className="app-form-row">
                         <label htmlFor="username">Username</label>
-                        <input id="username" className="app-input" value={form.username} onChange={handleChange} placeholder="Username" />
+                        <input id="username" name="username" className="app-input" value={form.username} onChange={handleChange} placeholder="Username" />
                     </div>
                     <div className="app-form-row">
                         <label htmlFor="password">Password</label>
-                        <input id="password" className="app-input" name="password" type="password" value={form.password} onChange={handleChange} placeholder="Password" />
+                        <input id="password" name="password" className="app-input" type="password" value={form.password} onChange={handleChange} placeholder="Password" />
                     </div>
                     <button type="submit" className="btn btn-primary" disabled={loading}>
                         {loading ? "Registering..." : "Register"}

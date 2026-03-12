@@ -1,57 +1,53 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../api/authService";
 
 export default function LoginPage() {
-    const { login, isAuthenticated } = useAuth();
+    const [form, setForm] = useState({ username: "", password: "" });
+    const [error, setError] = useState("");
+    const { login } = useAuth();
     const navigate = useNavigate();
 
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target;
+        setForm((prev) => ({ ...prev, [name]: value }));
+    }
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate("/tasks", { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
-
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const handleSubmit: React.ComponentProps<"form">["onSubmit"] = async (e) => {
         e.preventDefault();
+        setError("");
         try {
-            setLoading(true);
-            setError(null);
-            const data = await loginUser({ username, password });
-            login(data.token, username);
-            navigate("/tasks", { replace: true });
-        } catch (err) {
-            console.error("Login failed:", err);
+            await login(form.username, form.password);
+            navigate("/tasks");
+        } catch {
             setError("Login failed. Please check your credentials and try again.");
-        } finally {
-            setLoading(false);
         }
     }
 
     return (
-        <div>
-            <h2>Login</h2>
+        <main className="auth-page">
+            <section className="auth-card">
+                <h2>Login</h2>
+                <p className="auth-subtitle">Sign in!</p>
+                <form className="app-form" onSubmit={handleSubmit}>
+                    <div className="app-form-row">
+                        <label htmlFor="username">Username</label>
+                        <input id="username" className="app-input" name="username" value={form.username} onChange={handleChange} />
+                    </div>
+                    <div className="app-form-row">
+                        <label htmlFor="password">Password</label>
+                        <input id="password" className="app-input" name="password" type="password" value={form.password} onChange={handleChange} />
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                        Login
+                    </button>
+                </form>
+                {error ? <p className="message message-error">{error}</p> : null}
 
-            <form onSubmit={handleSubmit}>
-                <input name="username" value={username} onChange={e => setUsername(e.target.value)} />
-
-                <input name="password" type="password" value={password} onChange={e => setPassword(e.target.value)} />
-
-                <button type="submit" disabled={loading}>
-                    {loading ? "Logging in..." : "Login"}
-                </button>
-            </form>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-
-            <p>
-                Need an account? <Link to="/register">Register here</Link>.
-            </p>
-        </div>
+                <p className="auth-footer">
+                    Need an account? <Link to="/register">Register here.</Link>
+                </p>
+            </section>
+        </main>
     );
 }

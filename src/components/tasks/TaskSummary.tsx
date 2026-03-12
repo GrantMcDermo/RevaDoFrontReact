@@ -5,14 +5,26 @@ type Props = {
 };
 
 export default function TaskSummary({ tasks }: Props) {
-  const completed = tasks.filter(task => task.completed).length;
+  const completed = tasks.filter((task) => task.completed).length;
   const remaining = tasks.length - completed;
 
   return (
-    <div>
-      <p>Total: {tasks.length}</p>
-      <p>Completed: {completed}</p>
-      <p>Remaining: {remaining}</p>
-    </div>
+    <>
+      <h3>Task Summary</h3>
+      <div className="summary-grid">
+        <div className="summary-tile">
+          <p className="summary-label">Total:</p>
+          <p className="summary-value">{tasks.length}</p>
+        </div>
+        <div className="summary-tile">
+          <p className="summary-label">Completed:</p>
+          <p className="summary-value">{completed}</p>
+        </div>
+        <div className="summary-tile">
+          <p className="summary-label">Remaining:</p>
+          <p className="summary-value">{remaining}</p>
+        </div>
+      </div>
+    </>
   );
 }

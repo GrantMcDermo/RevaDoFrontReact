@@ -20,21 +20,31 @@ export default function EditTaskForm({ task, onSave, onCancel }: Props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Task title"
-            />
-            <textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Task description"
-            />
-            <button type="submit">Save</button>
-            <button type="button" onClick={onCancel}>
-                Cancel
-            </button>
+        <form className="app-form" onSubmit={handleSubmit}>
+            <div className="app-form-row">
+                <label>Edit Title</label>
+                <input
+                    className="app-input"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Task title"
+                />
+            </div>
+            <div className="app-form-row">
+                <label>Edit Description</label>
+                <textarea
+                    className="app-textarea"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Task description"
+                />
+            </div>
+            <div className="inline-form-actions">
+                <button type="submit" className="btn btn-primary">Save</button>
+                <button type="button" className="btn btn-secondary" onClick={onCancel}>
+                    Cancel
+                </button>
+            </div>
         </form>
     );
 }

@@ -25,18 +25,30 @@ export default function CreateSubtaskForm({ onCreateSubtask }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        placeholder="Subtask title"
-      />
-      <input
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-        placeholder="Subtask description"
-      />
-      <button type="submit">Add Subtask</button>
+    <form className="app-form" onSubmit={handleSubmit}>
+      <div className="app-form-row">
+        <label>Subtask Title</label>
+        <input
+          className="app-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Subtask title"
+        />
+      </div>
+      <div className="app-form-row">
+        <label>Subtask Description</label>
+        <textarea
+          className="app-textarea"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Subtask description"
+        />
+      </div>
+      <div className="button-row">
+        <button type="submit" className="btn btn-secondary">
+          Add Subtask
+        </button>
+      </div>
     </form>
   );
 }

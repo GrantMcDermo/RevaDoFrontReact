@@ -1,4 +1,3 @@
-import client from "./client";
 import type { RegisterResponse, AuthRequest, AuthResponse } from "../types/auth";
 import axios from "axios";
 

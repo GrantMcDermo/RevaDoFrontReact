@@ -20,22 +20,32 @@ export default function TaskPage() {
     });
 
     return (
-        <div>
+        <main className="page-shell">
             <TaskPageHeader username={username ?? "User"} onLogout={logout} />
-            <TaskControls filter={filter} onFilterChange={setFilter} onCreateTask={createTask} />
-            <TaskSummary tasks={tasks} />
-            {loading && <LoadingMessage message="Loading tasks..." />}
-            {error && <ErrorMessage message={error} />}
-            <TaskList
-                tasks={filteredTasks}
-                onUpdateTask={updateTask}
-                onToggleTaskComplete={toggleTaskComplete}
-                onDeleteTask={deleteTask}
-                onCreateSubtask={createSubtask}
-                onToggleSubtaskComplete={toggleSubtaskComplete}
-                onUpdateSubtask={updateSubtask}
-                onDeleteSubtask={deleteSubtask}
-            />
-        </div>
+            <section className="task-layout">
+                <aside className="sidebar-stack">
+                    <div className="card panel">
+                        <TaskControls filter={filter} onFilterChange={setFilter} onCreateTask={createTask} />
+                    </div>
+                    <div className="card panel">
+                        <TaskSummary tasks={tasks} />
+                    </div>
+                </aside>
+                <section className="content-stack">
+                    {loading && <LoadingMessage message="Loading tasks..." />}
+                    {error && <ErrorMessage message={error} />}
+                    <TaskList
+                        tasks={filteredTasks}
+                        onUpdateTask={updateTask}
+                        onToggleTaskComplete={toggleTaskComplete}
+                        onDeleteTask={deleteTask}
+                        onCreateSubtask={createSubtask}
+                        onToggleSubtaskComplete={toggleSubtaskComplete}
+                        onUpdateSubtask={updateSubtask}
+                        onDeleteSubtask={deleteSubtask}
+                    />
+                </section>
+            </section>
+        </main>
     );
 }

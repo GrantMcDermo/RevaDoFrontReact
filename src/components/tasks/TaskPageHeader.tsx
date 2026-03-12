@@ -5,9 +5,12 @@ type Props = {
 
 export default function TaskPageHeader({ username, onLogout }: Props) {
     return (
-        <div>
-            <h2>Welcome, {username}!</h2>
-            <button onClick={onLogout}>Logout</button>
-        </div>
+        <header className="card page-header">
+            <div>
+                <h1>RevaDo</h1>
+                <p>Welcome, {username}!</p>
+            </div>
+            <button type="button" className="btn btn-ghost" onClick={onLogout}>Logout</button>
+        </header>
     );
 }

@@ -11,7 +11,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRouter />
+        <div className="app-shell">
+          <AppRouter />
+        </div>
       </AuthProvider>
     </BrowserRouter> 
   );

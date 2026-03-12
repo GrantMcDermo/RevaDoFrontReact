@@ -21,7 +21,8 @@ export default function SubtaskSection({
   onDeleteSubtask,
 }: Props) {
   return (
-    <div>
+    <section className="subtask-section">
+      <h3>Subtasks</h3>
       <CreateSubtaskForm onCreateSubtask={onCreateSubtask} />
       <SubtaskList
         subtasks={subtasks}
@@ -29,6 +30,6 @@ export default function SubtaskSection({
         onToggleComplete={onToggleSubtaskComplete}
         onDeleteSubtask={onDeleteSubtask}
       />
-    </div>
+    </section>
   );
 }

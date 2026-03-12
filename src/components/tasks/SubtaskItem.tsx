@@ -21,42 +21,40 @@ export default function SubtaskItem({
   const [isEditing, setIsEditing] = useState(false);
 
   return (
-    <li>
+    <li className="subtask-item">
       {isEditing ? (
         <EditSubtaskForm
           subtask={subtask}
-          onSave={subtaskData => {
+          onSave={(subtaskData) => {
             onUpdateSubtask(subtask.id, subtaskData);
             setIsEditing(false);
           }}
           onCancel={() => setIsEditing(false)}
         />
       ) : (
-        <>
+        <div className="subtask-main">
           <div>
-            <span
-              style={{
-                textDecoration: subtask.completed ? "line-through" : "none",
-              }}
-            >
+            <p className={`subtask-title ${subtask.completed ? "is-complete" : ""}`}>
               {subtask.title}
-            </span>
+            </p>
 
-            {subtask.description ? <p>{subtask.description}</p> : null}
+            {subtask.description ? (<p className="subtask-description">{subtask.description}</p>) : null}
           </div>
 
-          <button type="button" onClick={() => onToggleComplete(subtask.id)}>
-            {subtask.completed ? "Undo" : "Complete"}
-          </button>
+          <div className="button-row">
+            <button type="button" className={`btn ${subtask.completed ? "btn-secondary" : "btn-success"}`} onClick={() => onToggleComplete(subtask.id)}>
+              {subtask.completed ? "Undo" : "Complete"}
+            </button>
 
-          <button type="button" onClick={() => setIsEditing(true)}>
-            Edit
-          </button>
+            <button type="button" className="btn btn-secondary" onClick={() => setIsEditing(true)}>
+              Edit
+            </button>
 
-          <button type="button" onClick={() => onDeleteSubtask(subtask.id)}>
-            Delete
-          </button>
-        </>
+            <button type="button" className="btn btn-danger" onClick={() => onDeleteSubtask(subtask.id)}>
+              Delete
+            </button>
+          </div>
+        </div>
       )}
     </li>
   );

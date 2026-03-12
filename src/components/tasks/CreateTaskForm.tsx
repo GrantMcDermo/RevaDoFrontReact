@@ -19,19 +19,32 @@ export default function CreateTaskForm({ onCreateTask }: Props) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Task title"
-                value={title}
-                onChange={e => setTitle(e.target.value)}
-            />
-            <textarea
-                placeholder="Task description"
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-            />
-            <button type="submit">Create Task</button>
+        <form className="app-form" onSubmit={handleSubmit}>
+            <div className="app-form-row">
+                <label htmlFor="task-title">Title</label>
+                <input
+                    id="task-title"
+                    className="app-input"
+                    placeholder="Task title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+            </div>
+            <div className="app-form-row">
+                <label htmlFor="task-description">Description</label>
+                <textarea
+                    id="task-description"
+                    className="app-textarea"
+                    placeholder="Task description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+            </div>
+            <div className="button-row">
+                <button type="submit" className="btn btn-primary">
+                    Create Task
+                </button>
+            </div>
         </form>
     );
 }

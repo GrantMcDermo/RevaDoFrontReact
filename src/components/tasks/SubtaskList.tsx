@@ -18,12 +18,12 @@ export default function SubtaskList({
   onDeleteSubtask,
 }: Props) {
   if (subtasks.length === 0) {
-    return <p>No subtasks yet.</p>;
+    return <div className="empty-state">No subtasks yet.</div>;
   }
 
   return (
-    <ul>
-      {subtasks.map(subtask => (
+    <ul className="subtask-list">
+      {subtasks.map((subtask) => (
         <SubtaskItem
           key={subtask.id}
           subtask={subtask}

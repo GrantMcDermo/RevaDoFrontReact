@@ -32,12 +32,12 @@ export default function TaskList({
   onDeleteSubtask,
 }: Props) {
   if (tasks.length === 0) {
-    return <p>No tasks yet.</p>;
+    return <div className="card empty-state">No tasks yet.</div>;
   }
 
   return (
-    <div>
-      {tasks.map(task => (
+    <div className="task-list">
+      {tasks.map((task) => (
         <TaskItem
           key={task.id}
           task={task}

@@ -15,7 +15,7 @@ export default function EditSubtaskForm({
   const [title, setTitle] = useState(subtask.title);
   const [description, setDescription] = useState(subtask.description ?? "");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!title.trim()) {
@@ -29,21 +29,31 @@ export default function EditSubtaskForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        value={title}
-        onChange={e => setTitle(e.target.value)}
-        placeholder="Subtask title"
-      />
-      <input
-        value={description}
-        onChange={e => setDescription(e.target.value)}
-        placeholder="Subtask description"
-      />
-      <button type="submit">Save</button>
-      <button type="button" onClick={onCancel}>
-        Cancel
-      </button>
+    <form className="app-form" onSubmit={handleSubmit}>
+      <div className="app-form-row">
+        <label>Edit Subtask Title</label>
+        <input
+          className="app-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Subtask title"
+        />
+      </div>
+      <div className="app-form-row">
+        <label>Edit Subtask Description</label>
+        <textarea
+          className="app-textarea"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Subtask description"
+        />
+      </div>
+      <div className="inline-form-actions">
+        <button type="submit" className="btn btn-primary">Save</button>
+        <button type="button" className="btn btn-secondary" onClick={onCancel}>
+          Cancel
+        </button>
+      </div>
     </form>
   );
 }

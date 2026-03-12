@@ -9,9 +9,15 @@ type Props = {
 
 export default function TaskControls({ filter, onFilterChange, onCreateTask }: Props) {
     return (
-        <div>
-            <TaskFilter filter={filter} onFilterChange={onFilterChange} />
-            <CreateTaskForm onCreateTask={onCreateTask} />
-        </div>
+        <>
+            <div>
+                <h3>Filters</h3>
+                <TaskFilter filter={filter} onFilterChange={onFilterChange} />
+            </div>
+            <div style={{ marginTop: "18px"}}>
+                <h3>Create Task</h3>
+                <CreateTaskForm onCreateTask={onCreateTask} />
+            </div>
+        </>
     );
 }

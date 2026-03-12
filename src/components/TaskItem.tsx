@@ -47,11 +47,11 @@ export default function TaskItem({
   }
 
   return (
-    <div>
+    <article className="card task-card">
       {isEditing ? (
         <EditTaskForm
           task={task}
-          onSave={taskData => {
+          onSave={(taskData) => {
             onUpdateTask(task.id, taskData);
             setIsEditing(false);
           }}
@@ -59,37 +59,40 @@ export default function TaskItem({
         />
       ) : (
         <>
-          <h3
-            style={{
-              textDecoration: task.completed ? "line-through" : "none",
-            }}
-          >
-            {task.title}
-          </h3>
+          <div className="task-card-header">
+            <div>
+              <h3 className={`task-title ${task.completed ? "is-complete" : ""}`}>
+                {task.title}
+              </h3>
 
-          {task.description ? <p>{task.description}</p> : null}
+              {task.description ? <p className="task-description">{task.description}</p> : null}
+            </div>
 
-          <button type="button" onClick={() => onToggleTaskComplete(task.id)}>
-            {task.completed ? "Undo" : "Complete"}
-          </button>
+            <div className="button-row">
+              <button type="button" className={`btn ${task.completed ? "btn-secondary" : "btn-success"}`} onClick={() => onToggleTaskComplete(task.id)}>
+                {task.completed ? "Undo" : "Complete"}
+              </button>
 
-          <button type="button" onClick={() => setIsEditing(true)}>
-            Edit
-          </button>
+              <button type="button" className="btn btn-secondary" onClick={() => setIsEditing(true)}>
+                Edit
+              </button>
 
-          <button type="button" onClick={() => onDeleteTask(task.id)}>
-            Delete
-          </button>
+              <button type="button" className="btn btn-danger" onClick={() => onDeleteTask(task.id)}>
+                Delete
+              </button>
+            </div>
+          </div>
+          <SubtaskSection
+            subtasks={task.subtasks}
+            onCreateSubtask={handleCreateSubtask}
+            onUpdateSubtask={onUpdateSubtask}
+            onToggleSubtaskComplete={onToggleSubtaskComplete}
+            onDeleteSubtask={handleDeleteSubtask}
+          />
         </>
       )}
 
-      <SubtaskSection
-        subtasks={task.subtasks}
-        onCreateSubtask={handleCreateSubtask}
-        onUpdateSubtask={onUpdateSubtask}
-        onToggleSubtaskComplete={onToggleSubtaskComplete}
-        onDeleteSubtask={handleDeleteSubtask}
-      />
-    </div>
+      
+    </article>
   );
 }

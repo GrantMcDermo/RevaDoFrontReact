@@ -1,41 +1,54 @@
-import type { Task } from "../types/task";
 import { useState } from "react";
-import SubtaskSection from "./tasks/SubtaskSection";
+import type { Task } from "../types/task";
 import EditTaskForm from "./tasks/EditTaskForm";
+import SubtaskSection from "./tasks/SubtaskSection";
 
-type TaskItemProps = {
-    task: Task;
-    onUpdateTask: (taskId: string, taskData: { title: string; description: string }) => void;
-    onToggleTaskComplete: (taskId: string) => void;
-    onDeleteTask: (taskId: string) => void;
-    onCreateSubtask: (taskId: string, subtaskData: { title: string; description: string }) => void;
-    onUpdateSubtask: (subtaskId: string, subtaskData: { title: string; description: string }) => void;
-    onToggleSubtaskComplete: (subtaskId: string) => void;
-    onDeleteSubtask: (taskId: string, subtaskId: string) => void;
+type Props = {
+  task: Task;
+  onUpdateTask: (
+    taskId: string,
+    taskData: { title: string; description: string }
+  ) => void;
+  onToggleTaskComplete: (taskId: string) => void;
+  onDeleteTask: (taskId: string) => void;
+  onCreateSubtask: (
+    taskId: string,
+    subtaskData: { title: string; description: string }
+  ) => void;
+  onUpdateSubtask: (
+    subtaskId: string,
+    subtaskData: { title: string; description: string }
+  ) => void;
+  onToggleSubtaskComplete: (subtaskId: string) => void;
+  onDeleteSubtask: (taskId: string, subtaskId: string) => void;
 };
 
 export default function TaskItem({
-    task,
-    onUpdateTask,
-    onToggleTaskComplete,
-    onDeleteTask,
-    onCreateSubtask,
-    onToggleSubtaskComplete,
-    onDeleteSubtask,
-}: TaskItemProps) {
-    const [isEditing, setIsEditing] = useState(false);
+  task,
+  onUpdateTask,
+  onToggleTaskComplete,
+  onDeleteTask,
+  onCreateSubtask,
+  onUpdateSubtask,
+  onToggleSubtaskComplete,
+  onDeleteSubtask,
+}: Props) {
+  const [isEditing, setIsEditing] = useState(false);
 
-    function handleCreateSubtask(subtaskData: { title: string; description: string }) {
-        onCreateSubtask(task.id, subtaskData);
-    }
+  function handleCreateSubtask(subtaskData: {
+    title: string;
+    description: string;
+  }) {
+    onCreateSubtask(task.id, subtaskData);
+  }
 
-    function handleDeleteSubtask(subtaskId: string){
-        onDeleteSubtask(task.id, subtaskId);
-    }
+  function handleDeleteSubtask(subtaskId: string) {
+    onDeleteSubtask(task.id, subtaskId);
+  }
 
-    return (
-        <div style={{ border: "1px solid black", padding: "10px", marginBottom: "1.5rem" }}>
-            {isEditing ? (
+  return (
+    <div>
+      {isEditing ? (
         <EditTaskForm
           task={task}
           onSave={taskData => {
@@ -73,9 +86,10 @@ export default function TaskItem({
       <SubtaskSection
         subtasks={task.subtasks}
         onCreateSubtask={handleCreateSubtask}
+        onUpdateSubtask={onUpdateSubtask}
         onToggleSubtaskComplete={onToggleSubtaskComplete}
         onDeleteSubtask={handleDeleteSubtask}
       />
-        </div>
-    );
+    </div>
+  );
 }
